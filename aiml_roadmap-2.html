@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI/ML Engineer Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --accent5: #f43f5e;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --phase1: #00e5ff;
+    --phase2: #7c3aed;
+    --phase3: #f59e0b;
+    --phase4: #10b981;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header { text-align: center; margin-bottom: 60px; }
+  .header-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 14px;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease both;
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    animation: fadeDown 0.7s ease both;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 400;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  /* START ORDER BANNER */
+  .start-order {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent3);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 56px;
+    animation: fadeUp 0.9s ease both;
+  }
+  .start-order h2 {
+    font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent3);
+    margin-bottom: 14px;
+  }
+  .order-steps {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .order-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .order-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .order-badge .num {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent3);
+    margin-right: 6px;
+  }
+  .order-arrow { color: var(--muted); font-size: 1.1rem; }
+  .order-note { margin-top: 12px; font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .order-note strong { color: var(--text); }
+
+  /* PHASE */
+  .phase {
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .phase-title { font-size: 1.35rem; font-weight: 700; }
+  .phase-duration {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .card-sub {
+    font-size: 0.72rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .topics { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .topics li {
+    font-size: 0.8rem;
+    color: #b0b0c8;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .topics li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .badge-essential { background: #10b98122; color: #10b981; border: 1px solid #10b98133; }
+  .badge-optional  { background: #f59e0b22; color: #f59e0b; border: 1px solid #f59e0b33; }
+  .badge-defer     { background: #6b6b8022; color: #9090a8; border: 1px solid #6b6b8033; }
+
+  /* Color theming per phase */
+  .p1 .phase-num  { color: var(--phase1); border-color: var(--phase1); }
+  .p1 .card:hover { border-color: var(--phase1); }
+  .p1 .card::before { background: var(--phase1); }
+  .p1 .card-sub   { color: var(--phase1); }
+
+  .p2 .phase-num  { color: var(--phase2); border-color: var(--phase2); }
+  .p2 .card:hover { border-color: var(--phase2); }
+  .p2 .card::before { background: var(--phase2); }
+  .p2 .card-sub   { color: var(--phase2); }
+
+  .p3 .phase-num  { color: var(--phase3); border-color: var(--phase3); }
+  .p3 .card:hover { border-color: var(--phase3); }
+  .p3 .card::before { background: var(--phase3); }
+  .p3 .card-sub   { color: var(--phase3); }
+
+  .p4 .phase-num  { color: var(--phase4); border-color: var(--phase4); }
+  .p4 .card:hover { border-color: var(--phase4); }
+  .p4 .card::before { background: var(--phase4); }
+  .p4 .card-sub   { color: var(--phase4); }
+
+  /* RESOURCE FLOW STRIP */
+  .resource-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .rf-step {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+    color: var(--accent);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  a.rf-step:hover {
+    background: #00e5ff18;
+    border-color: var(--accent);
+  }
+  .rf-arrow { color: var(--muted); font-size: 0.75rem; }
+  .rf-note {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  /* Platform links */
+  a.plat-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  a.plat-link .plat-item {
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  a.plat-link:hover .plat-item {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  a.plat-link:hover .plat-name { color: var(--accent); }
+  /* Math flow box links */
+  a.mfb-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  a.mfb-link .mfb-step {
+    transition: border-color 0.15s;
+  }
+  a.mfb-link:hover .mfb-step { border-color: var(--accent); }
+  a.mfb-link:hover .mfb-step-name { color: var(--accent); }
+
+  /* MATH FLOW BOX */
+  .math-flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .mfb-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .mfb-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .mfb-step {
+    flex: 1;
+    min-width: 130px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .mfb-step-name {
+    font-weight: 700;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .mfb-step-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
+  .mfb-arrow { color: var(--muted); font-size: 1.2rem; margin-top: 14px; }
+
+  /* HIGHLIGHTED PLATFORM */
+  .plat-highlight {
+    border-color: var(--accent) !important;
+  }
+  .plat-highlight .plat-name { color: var(--accent); }
+
+  /* PLATFORMS */
+  .platforms {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-top: 48px;
+  }
+  .platforms h2 {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 18px;
+  }
+  .plat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .plat-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .plat-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+  .plat-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+
+  /* LANGUAGES */
+  .lang-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent5);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 20px;
+  }
+  .lang-section h2 {
+    font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent5);
+    margin-bottom: 14px;
+  }
+  .lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .lang-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .lang-name { font-weight: 700; font-size: 0.9rem; }
+  .lang-why { font-size: 0.75rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+  /* CONNECTOR LINE */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 20px;
+  }
+  .connector-line {
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 60px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    padding-bottom: 40px;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .order-steps { flex-direction: column; align-items: flex-start; }
+    .order-arrow { transform: rotate(90deg); }
+    .phase-duration { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-tag">Career Roadmap</div>
+    <h1>AI / ML <span>Engineer</span></h1>
+    <p class="subtitle">A structured, stage-by-stage path from zero to production-ready</p>
+  </header>
+
+  <!-- START ORDER -->
+  <div class="start-order">
+    <h2>⚡ Where to Start — The Order That Works</h2>
+    <div class="order-steps">
+      <div class="order-step">
+        <div class="order-badge"><span class="num">01</span>Python Basics</div>
+      </div>
+      <div class="order-arrow">→</div>
+      <div class="order-step">
+        <div class="order-badge"><span class="num">02</span>Math Foundations</div>
+      </div>
+      <div class="order-arrow">→</div>
+      <div class="order-step">
+        <div class="order-badge"><span class="num">03</span>Python for Data Science</div>
+      </div>
+      <div class="order-arrow">→</div>
+      <div class="order-step">
+        <div class="order-badge"><span class="num">04</span>ML/AI Concepts</div>
+      </div>
+      <div class="order-arrow">→</div>
+      <div class="order-step">
+        <div class="order-badge"><span class="num">05</span>Deep Learning & Specialization</div>
+      </div>
+    </div>
+    <p class="order-note">
+      <strong>Why this order?</strong> Python gives you a tool to experiment immediately. Math runs in parallel from Stage 2 — don't wait until it's "done" (it never is). ML concepts only click once you can code them and understand the math behind them. Learn math <em>just enough</em> before each ML topic, not all upfront.
+    </p>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase p1">
+    <div class="phase-header">
+      <div class="phase-num">Phase 01 · Beginner</div>
+      <div class="phase-title">Python Core + Math Foundations</div>
+      <div class="phase-duration">~3–5 months</div>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-icon">🐍</div>
+        <div class="card-title">Python — Core Language</div>
+        <div class="card-sub">Essential — Learn All of This</div>
+        <ul class="topics">
+          <li>Variables, data types, operators</li>
+          <li>Strings & string methods</li>
+          <li>Lists, tuples, sets, dicts</li>
+          <li>Conditionals & loops</li>
+          <li>Functions & scope</li>
+          <li>File I/O & error handling</li>
+          <li>Modules & packages (pip)</li>
+          <li>List/dict comprehensions</li>
+          <li>Basic OOP (classes, methods)</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.python.org/about/gettingstarted/" target="_blank" class="rf-step">Python.org</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.kaggle.com/learn/python" target="_blank" class="rf-step">Kaggle Python</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://realpython.com" target="_blank" class="rf-step">Real Python</a>
+        </div>
+        <div class="rf-note">Official docs to start → Kaggle for practice → Real Python for deeper concepts</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">Linear Algebra</div>
+        <div class="card-sub">Essential — Key Topics Only</div>
+        <ul class="topics">
+          <li>Vectors & vector operations <span class="badge badge-essential">core</span></li>
+          <li>Matrices & matrix multiplication <span class="badge badge-essential">core</span></li>
+          <li>Dot products & norms <span class="badge badge-essential">core</span></li>
+          <li>Transpose, inverse <span class="badge badge-essential">core</span></li>
+          <li>Eigenvalues & eigenvectors <span class="badge badge-essential">core</span></li>
+          <li>SVD (Singular Value Decomp.) <span class="badge badge-essential">core</span></li>
+          <li>Span, basis, rank <span class="badge badge-optional">useful</span></li>
+          <li>Advanced proofs <span class="badge badge-defer">skip early</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.khanacademy.org/math/linear-algebra" target="_blank" class="rf-step">Khan Academy</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" class="rf-step">3Blue1Brown</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.youtube.com/@statquest" target="_blank" class="rf-step">StatQuest</a>
+        </div>
+        <div class="rf-note">Mechanics → Visual intuition → ML application</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Statistics & Probability</div>
+        <div class="card-sub">Essential — Key Topics Only</div>
+        <ul class="topics">
+          <li>Mean, median, mode, variance, std <span class="badge badge-essential">core</span></li>
+          <li>Probability rules & Bayes' Theorem <span class="badge badge-essential">core</span></li>
+          <li>Distributions (Normal, Binomial, etc.) <span class="badge badge-essential">core</span></li>
+          <li>Hypothesis testing & p-values <span class="badge badge-essential">core</span></li>
+          <li>Correlation & covariance <span class="badge badge-essential">core</span></li>
+          <li>Confidence intervals <span class="badge badge-optional">useful</span></li>
+          <li>Bayesian inference <span class="badge badge-optional">useful</span></li>
+          <li>ANOVA, Chi-squared tests <span class="badge badge-defer">defer</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" class="rf-step">Khan Academy</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.youtube.com/@statquest" target="_blank" class="rf-step">StatQuest</a>
+        </div>
+        <div class="rf-note">Khan Academy is strongest here — rely on it heavily. StatQuest connects each concept to ML.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">∫</div>
+        <div class="card-title">Calculus</div>
+        <div class="card-sub">Yes — You Need It for Deep Learning</div>
+        <ul class="topics">
+          <li>Derivatives & differentiation rules <span class="badge badge-essential">core</span></li>
+          <li>Chain rule <span class="badge badge-essential">core</span></li>
+          <li>Partial derivatives <span class="badge badge-essential">core</span></li>
+          <li>Gradients & gradient descent <span class="badge badge-essential">core</span></li>
+          <li>Integrals (basic understanding) <span class="badge badge-optional">useful</span></li>
+          <li>Multivariable calculus (deep) <span class="badge badge-defer">defer</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.khanacademy.org/math/calculus-1" target="_blank" class="rf-step">Khan Academy</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" target="_blank" class="rf-step">3Blue1Brown</a>
+        </div>
+        <div class="rf-note">3Blue1Brown's "Essence of Calculus" is unmissable for gradient intuition.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="connector"><div class="connector-line"></div></div>
+
+  <!-- PHASE 2 -->
+  <div class="phase p2">
+    <div class="phase-header">
+      <div class="phase-num">Phase 02 · Intermediate</div>
+      <div class="phase-title">Python for Data Science + Classical ML</div>
+      <div class="phase-duration">~4–6 months</div>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-icon">🔢</div>
+        <div class="card-title">NumPy</div>
+        <div class="card-sub">Essential</div>
+        <ul class="topics">
+          <li>Arrays, shapes, dtypes</li>
+          <li>Broadcasting & vectorized ops</li>
+          <li>Indexing & slicing</li>
+          <li>Linear algebra ops (np.linalg)</li>
+          <li>Random number generation</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://numpy.org/learn/" target="_blank" class="rf-step">NumPy Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" class="rf-step">Kaggle</a>
+        </div>
+        <div class="rf-note">Official docs are excellent. Kaggle notebooks for hands-on practice.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🐼</div>
+        <div class="card-title">Pandas</div>
+        <div class="card-sub">Essential</div>
+        <ul class="topics">
+          <li>DataFrames & Series</li>
+          <li>Loading CSV, JSON, Excel</li>
+          <li>Filtering, sorting, groupby</li>
+          <li>Handling missing data</li>
+          <li>Merging & joining datasets</li>
+          <li>Apply, map, lambda</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://pandas.pydata.org/docs/getting_started/index.html" target="_blank" class="rf-step">Pandas Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.kaggle.com/learn/pandas" target="_blank" class="rf-step">Kaggle Pandas</a>
+        </div>
+        <div class="rf-note">Kaggle's free Pandas course is one of the best short courses available.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Matplotlib & Seaborn</div>
+        <div class="card-sub">Essential</div>
+        <ul class="topics">
+          <li>Line, bar, scatter, histogram plots</li>
+          <li>Customizing axes, titles, legends</li>
+          <li>Subplots & figure layouts</li>
+          <li>Heatmaps, pairplots (Seaborn)</li>
+          <li>Plotly for interactive charts <span class="badge badge-optional">optional</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://matplotlib.org/stable/tutorials/index.html" target="_blank" class="rf-step">Matplotlib Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.kaggle.com/learn/data-visualization" target="_blank" class="rf-step">Kaggle DataViz</a>
+        </div>
+        <div class="rf-note">Kaggle's Data Visualization course covers both Matplotlib and Seaborn well.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <div class="card-title">Scikit-learn</div>
+        <div class="card-sub">Essential</div>
+        <ul class="topics">
+          <li>Train/test split, cross-validation</li>
+          <li>Preprocessing & pipelines</li>
+          <li>Linear & Logistic Regression</li>
+          <li>Decision Trees, Random Forests</li>
+          <li>SVM, KNN, Naive Bayes</li>
+          <li>Clustering (K-Means, DBSCAN)</li>
+          <li>Metrics: accuracy, F1, AUC-ROC</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://scikit-learn.org/stable/tutorial/index.html" target="_blank" class="rf-step">Sklearn Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" class="rf-step">Kaggle ML</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.youtube.com/@statquest" target="_blank" class="rf-step">StatQuest</a>
+        </div>
+        <div class="rf-note">Scikit-learn docs + Kaggle to practice, StatQuest to understand what's happening under the hood.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧮</div>
+        <div class="card-title">Discrete Math</div>
+        <div class="card-sub">Partial — Key Topics Only</div>
+        <ul class="topics">
+          <li>Sets, relations, functions <span class="badge badge-essential">core</span></li>
+          <li>Boolean logic & truth tables <span class="badge badge-essential">core</span></li>
+          <li>Graph theory basics <span class="badge badge-optional">useful</span></li>
+          <li>Combinatorics & counting <span class="badge badge-optional">useful</span></li>
+          <li>Formal proofs & logic <span class="badge badge-defer">skip</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.khanacademy.org/computing/ap-computer-science-principles/algorithms-101" target="_blank" class="rf-step">Khan Academy</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.coursera.org/learn/discrete-mathematics" target="_blank" class="rf-step">Coursera</a>
+        </div>
+        <div class="rf-note">Only study the core topics listed above — don't go deep into formal proofs.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🗄️</div>
+        <div class="card-title">SQL</div>
+        <div class="card-sub">Essential — Real World Data Lives Here</div>
+        <ul class="topics">
+          <li>SELECT, WHERE, ORDER BY</li>
+          <li>JOIN (inner, left, right)</li>
+          <li>GROUP BY & aggregations</li>
+          <li>Subqueries & CTEs</li>
+          <li>Window functions <span class="badge badge-optional">useful</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.kaggle.com/learn/intro-to-sql" target="_blank" class="rf-step">Kaggle SQL</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://sqlzoo.net" target="_blank" class="rf-step">SQLZoo</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://mode.com/sql-tutorial" target="_blank" class="rf-step">Mode SQL</a>
+        </div>
+        <div class="rf-note">Kaggle to learn, SQLZoo to drill, Mode for advanced queries.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="connector"><div class="connector-line"></div></div>
+
+  <!-- PHASE 3 -->
+  <div class="phase p3">
+    <div class="phase-header">
+      <div class="phase-num">Phase 03 · Advanced</div>
+      <div class="phase-title">Deep Learning + Specialization</div>
+      <div class="phase-duration">~5–8 months</div>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Deep Learning Foundations</div>
+        <div class="card-sub">Essential</div>
+        <ul class="topics">
+          <li>Neural networks & activation functions</li>
+          <li>Backpropagation & gradient descent</li>
+          <li>Loss functions & optimizers (Adam, SGD)</li>
+          <li>Overfitting, dropout, regularization</li>
+          <li>Batch norm & learning rate tuning</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.coursera.org/specializations/deep-learning" target="_blank" class="rf-step">Andrew Ng</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://course.fast.ai" target="_blank" class="rf-step">fast.ai</a>
+        </div>
+        <div class="rf-note">Andrew Ng for theory first, fast.ai to build real things fast.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔥</div>
+        <div class="card-title">PyTorch or TensorFlow/Keras</div>
+        <div class="card-sub">Pick One — PyTorch Recommended</div>
+        <ul class="topics">
+          <li>Tensors & autograd</li>
+          <li>Building custom models (nn.Module)</li>
+          <li>Training loops & dataloaders</li>
+          <li>GPU acceleration (CUDA)</li>
+          <li>Saving/loading models</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://pytorch.org/tutorials/" target="_blank" class="rf-step">PyTorch Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.learnpytorch.io" target="_blank" class="rf-step">learnpytorch.io</a>
+        </div>
+        <div class="rf-note">learnpytorch.io (by Daniel Bourke) is the best free PyTorch course available.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-title">Computer Vision</div>
+        <div class="card-sub">Specialization Track</div>
+        <ul class="topics">
+          <li>CNNs (Conv, Pool, Flatten layers)</li>
+          <li>Transfer learning (ResNet, EfficientNet)</li>
+          <li>Object detection (YOLO, Faster-RCNN)</li>
+          <li>Image segmentation</li>
+          <li>OpenCV basics <span class="badge badge-optional">optional</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://course.fast.ai" target="_blank" class="rf-step">fast.ai</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://cs231n.stanford.edu" target="_blank" class="rf-step">CS231n Stanford</a>
+        </div>
+        <div class="rf-note">fast.ai is practical and fast. CS231n is the gold standard deep dive for CV.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <div class="card-title">NLP & LLMs</div>
+        <div class="card-sub">Specialization Track</div>
+        <ul class="topics">
+          <li>Tokenization, embeddings, TF-IDF</li>
+          <li>RNNs, LSTMs (understand, not master)</li>
+          <li>Transformers & attention mechanism</li>
+          <li>BERT, GPT — fine-tuning with HuggingFace</li>
+          <li>Prompt engineering & RAG systems</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://huggingface.co/learn/nlp-course" target="_blank" class="rf-step">HuggingFace NLP</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://cs224n.stanford.edu" target="_blank" class="rf-step">CS224n Stanford</a>
+        </div>
+        <div class="rf-note">HuggingFace course is free and modern. CS224n for deeper NLP theory.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <div class="card-title">Advanced Math</div>
+        <div class="card-sub">Learn As Needed</div>
+        <ul class="topics">
+          <li>Information Theory (entropy, KL divergence) <span class="badge badge-essential">core</span></li>
+          <li>Optimization theory <span class="badge badge-essential">core</span></li>
+          <li>Lagrange multipliers <span class="badge badge-optional">useful</span></li>
+          <li>Fourier transforms <span class="badge badge-defer">defer</span></li>
+          <li>Stochastic processes <span class="badge badge-defer">defer</span></li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.youtube.com/@statquest" target="_blank" class="rf-step">StatQuest</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://see.stanford.edu/Course/CS229" target="_blank" class="rf-step">CS229 Stanford</a>
+        </div>
+        <div class="rf-note">Learn these topics as they come up in ML — not all at once upfront.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Advanced Python</div>
+        <div class="card-sub">Essential at This Stage</div>
+        <ul class="topics">
+          <li>Decorators & generators</li>
+          <li>Async programming (asyncio)</li>
+          <li>Type hints & dataclasses</li>
+          <li>Virtual envs & dependency mgmt</li>
+          <li>Writing clean, modular ML code</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://realpython.com" target="_blank" class="rf-step">Real Python</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://docs.python.org/3/" target="_blank" class="rf-step">Python Docs</a>
+        </div>
+        <div class="rf-note">Real Python has the best articles on advanced Python patterns for production code.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="connector"><div class="connector-line"></div></div>
+
+  <!-- PHASE 4 -->
+  <div class="phase p4">
+    <div class="phase-header">
+      <div class="phase-num">Phase 04 · Production-Ready</div>
+      <div class="phase-title">MLOps, Deployment & Portfolio</div>
+      <div class="phase-duration">~3–4 months</div>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">MLOps & Deployment</div>
+        <div class="card-sub">Essential for Industry Jobs</div>
+        <ul class="topics">
+          <li>REST APIs with FastAPI / Flask</li>
+          <li>Docker & containerization</li>
+          <li>Model serving (TorchServe, TF Serving)</li>
+          <li>Cloud basics (AWS/GCP/Azure)</li>
+          <li>MLflow or Weights & Biases (experiment tracking)</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://fastapi.tiangolo.com" target="_blank" class="rf-step">FastAPI Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://mlflow.org/docs/latest/index.html" target="_blank" class="rf-step">MLflow Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.coursera.org/specializations/mlops-machine-learning-duke" target="_blank" class="rf-step">MLOps Course</a>
+        </div>
+        <div class="rf-note">FastAPI for serving, MLflow for tracking, Coursera MLOps for the full picture.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Data Engineering Basics</div>
+        <div class="card-sub">Useful</div>
+        <ul class="topics">
+          <li>ETL pipelines</li>
+          <li>Apache Spark (intro) <span class="badge badge-defer">defer</span></li>
+          <li>Feature stores concept</li>
+          <li>Data versioning (DVC)</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://dvc.org/doc" target="_blank" class="rf-step">DVC Docs</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://www.databricks.com/learn/training/free" target="_blank" class="rf-step">Databricks Free</a>
+        </div>
+        <div class="rf-note">DVC for versioning your data & models. Databricks free training for Spark when ready.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <div class="card-title">Git & Software Practices</div>
+        <div class="card-sub">Essential from Day One</div>
+        <ul class="topics">
+          <li>Git: commit, branch, merge, rebase</li>
+          <li>GitHub: PRs, Issues, Actions (CI/CD)</li>
+          <li>Writing readable, documented code</li>
+          <li>Unit testing for ML (pytest)</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://learngitbranching.js.org" target="_blank" class="rf-step">Learn Git Branching</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://github.com" target="_blank" class="rf-step">GitHub</a>
+        </div>
+        <div class="rf-note">Learn Git Branching is the most interactive & fun way to learn Git. Start there.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <div class="card-title">Portfolio Projects</div>
+        <div class="card-sub">Your Ticket to Employment</div>
+        <ul class="topics">
+          <li>End-to-end ML project (data → deploy)</li>
+          <li>Kaggle competition (top 20%)</li>
+          <li>NLP app or CV project</li>
+          <li>Research paper implementation</li>
+          <li>Open source contribution</li>
+        </ul>
+        <div class="resource-flow">
+          <a href="https://www.kaggle.com/competitions" target="_blank" class="rf-step">Kaggle Competitions</a>
+          <span class="rf-arrow">→</span>
+          <a href="https://paperswithcode.com" target="_blank" class="rf-step">Papers With Code</a>
+        </div>
+        <div class="rf-note">Kaggle for competitions & datasets. Papers With Code to find papers worth implementing.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OTHER LANGUAGES -->
+  <div class="lang-section">
+    <h2>🌐 Other Languages — Do You Need Them?</h2>
+    <div class="lang-grid">
+      <div class="lang-item">
+        <div class="lang-name">SQL <span class="badge badge-essential">essential</span></div>
+        <div class="lang-why">Real-world data lives in databases. Non-negotiable for any data role.</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">R <span class="badge badge-defer">skip</span></div>
+        <div class="lang-why">Only needed for academic/research stats roles. Python covers everything.</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">C++ <span class="badge badge-defer">advanced only</span></div>
+        <div class="lang-why">Needed for low-level ML infra, robotics, or custom CUDA kernels. Defer.</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Bash/Linux <span class="badge badge-optional">useful</span></div>
+        <div class="lang-why">You'll live in the terminal. Learn basic scripting and navigation early.</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Julia <span class="badge badge-defer">skip</span></div>
+        <div class="lang-why">Niche. Only relevant for scientific computing research.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORMS -->
+  <div class="platforms">
+    <h2>🎓 Recommended Learning Platforms</h2>
+
+    <!-- Math flow callout -->
+    <div class="math-flow-box">
+      <div class="mfb-title">📐 Math Learning Flow — Use All Three in Order</div>
+      <div class="mfb-steps">
+        <a href="https://www.khanacademy.org/math" target="_blank" class="mfb-link">
+          <div class="mfb-step">
+            <div class="mfb-step-name">Khan Academy</div>
+            <div class="mfb-step-desc">Learn the mechanics. Work through exercises until calculations feel automatic.</div>
+          </div>
+        </a>
+        <div class="mfb-arrow">→</div>
+        <a href="https://www.youtube.com/@3blue1brown" target="_blank" class="mfb-link">
+          <div class="mfb-step">
+            <div class="mfb-step-name">3Blue1Brown</div>
+            <div class="mfb-step-desc">Build visual intuition. Watch "Essence of Linear Algebra" + "Essence of Calculus."</div>
+          </div>
+        </a>
+        <div class="mfb-arrow">→</div>
+        <a href="https://www.youtube.com/@statquest" target="_blank" class="mfb-link">
+          <div class="mfb-step">
+            <div class="mfb-step-name">StatQuest</div>
+            <div class="mfb-step-desc">Connect math to ML. See how eigenvalues, covariance, etc. power real algorithms.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="plat-grid">
+      <a href="https://www.khanacademy.org/math" target="_blank" class="plat-link">
+        <div class="plat-item plat-highlight">
+          <div class="plat-name">Khan Academy ⭐</div>
+          <div class="plat-desc">Free. Best starting point for Linear Algebra, Statistics, Probability & Calculus. Strong exercise-based learning.</div>
+        </div>
+      </a>
+      <a href="https://course.fast.ai" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">fast.ai</div>
+          <div class="plat-desc">Best for Deep Learning. Practical-first, code before theory. Free.</div>
+        </div>
+      </a>
+      <a href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">Coursera — Andrew Ng</div>
+          <div class="plat-desc">ML Specialization + Deep Learning Specialization. Gold standard theory.</div>
+        </div>
+      </a>
+      <a href="https://www.kaggle.com/learn" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">Kaggle</div>
+          <div class="plat-desc">Free courses, datasets, and competitions. Best for hands-on practice.</div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@3blue1brown" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">3Blue1Brown ⭐</div>
+          <div class="plat-desc">YouTube. Visual intuition for Linear Algebra & Calculus. Pair with Khan Academy.</div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@statquest" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">StatQuest ⭐</div>
+          <div class="plat-desc">YouTube. Bridges math to ML concepts. Use after Khan Academy for every topic.</div>
+        </div>
+      </a>
+      <a href="https://see.stanford.edu/Course/CS229" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">CS229 — Stanford</div>
+          <div class="plat-desc">Free lecture notes & videos. Rigorous ML theory. For when you're ready.</div>
+        </div>
+      </a>
+      <a href="https://huggingface.co/learn" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">HuggingFace Courses</div>
+          <div class="plat-desc">Free. Best resource for Transformers, NLP, and modern LLM workflows.</div>
+        </div>
+      </a>
+      <a href="https://roadmap.sh/ai-engineer" target="_blank" class="plat-link">
+        <div class="plat-item">
+          <div class="plat-name">roadmap.sh/ai-engineer</div>
+          <div class="plat-desc">Interactive visual roadmap. Good companion reference tool.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    AI/ML Engineer Roadmap · Built for Muhammad · Estimated Total: 18–24 months of dedicated study
+  </footer>
+
+</div>
+</body>
+</html>
